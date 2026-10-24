@@ -1,132 +1,164 @@
 ﻿using System;
 using PLANAZO_POO_CSharp.Servicios;
 
-class Program
+namespace PLANAZO_POO_CSharp
 {
-    static void Main(string[] args)
+    internal class Program
     {
-        GestorReservas gestor = new GestorReservas();
-        int opcion = -1;
-
-        while (opcion != 0)
+        static void Main(string[] args)
         {
-            MostrarMenu();
-            string entrada = Console.ReadLine();
+            GestorReservas gestor = new GestorReservas();
+            bool continuar = true;
 
-            // Validar que la opción ingresada sea un número entero
-            if (!int.TryParse(entrada, out opcion))
+            while (continuar)
             {
-                Console.WriteLine("\n[Error] Por favor, ingrese un número válido.");
-                Continuar();
-                continue;
-            }
+                Console.Clear();
+                Console.WriteLine("==================================================");
+                Console.WriteLine("    PLANAZO - SISTEMA DE GESTIÓN DE EVENTOS      ");
+                Console.WriteLine("==================================================");
+                Console.WriteLine("1. Mostrar eventos disponibles");
+                Console.WriteLine("2. Consultar evento por ID");
+                Console.WriteLine("3. Realizar una reserva");
+                Console.WriteLine("4. Ver reservas realizadas");
+                Console.WriteLine("5. Cancelar una reserva");
+                Console.WriteLine("6. Ver resumen de reservas");
+                Console.WriteLine("7. Salir");
+                Console.WriteLine("==================================================");
+                Console.Write("Seleccione una opción (1-7): ");
 
-            try
-            {
-                switch (opcion)
+                // Validación robusta: si escriben una letra, no se cae el programa
+                if (!int.TryParse(Console.ReadLine(), out int opcion))
                 {
-                    case 1:
-                        gestor.MostrarEventosDisponibles();
-                        break;
+                    MostrarMensajeError("Entrada inválida. Debe ingresar un número entero del 1 al 7.");
+                    continue;
+                }
 
-                    case 2:
-                        Console.Write("\nIngrese el ID del evento a consultar: ");
-                        if (int.TryParse(Console.ReadLine(), out int idConsulta))
-                        {
-                            gestor.ConsultarEventoPorId(idConsulta);
-                        }
-                        else
-                        {
-                            Console.WriteLine("[Error] ID inválido.");
-                        }
-                        break;
+                Console.WriteLine();
 
-                    case 3:
-                        gestor.MostrarEventosDisponibles();
-                        Console.Write("\nIngrese el Nombre de la persona que reserva: ");
-                        string nombre = Console.ReadLine();
+                try
+                {
+                    switch (opcion)
+                    {
+                        case 1:
+                            gestor.MostrarEventosDisponibles();
+                            PausarConsola();
+                            break;
 
-                        Console.Write("Ingrese el ID del evento: ");
-                        if (int.TryParse(Console.ReadLine(), out int eventoId))
-                        {
-                            Console.Write("Ingrese la cantidad de entradas: ");
-                            if (int.TryParse(Console.ReadLine(), out int cantidad))
-                            {
-                                gestor.RealizarReserva(nombre, eventoId, cantidad);
-                            }
-                            else
-                            {
-                                Console.WriteLine("[Error] Cantidad de entradas inválida.");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("[Error] ID de evento inválido.");
-                        }
-                        break;
+                        case 2:
+                            ConsultarEventoUI(gestor);
+                            break;
 
-                    case 4:
-                        gestor.VerReservasRealizadas();
-                        break;
+                        case 3:
+                            RealizarReservaUI(gestor);
+                            break;
 
-                    case 5:
-                        gestor.VerReservasRealizadas();
-                        Console.Write("\nIngrese el ID de la reserva que desea cancelar: ");
-                        if (int.TryParse(Console.ReadLine(), out int idReserva))
-                        {
-                            gestor.CancelarReserva(idReserva);
-                        }
-                        else
-                        {
-                            Console.WriteLine("[Error] ID de reserva inválido.");
-                        }
-                        break;
+                        case 4:
+                            gestor.VerReservasRealizadas();
+                            PausarConsola();
+                            break;
 
-                    case 6:
-                        gestor.VerResumenReservas();
-                        break;
+                        case 5:
+                            CancelarReservaUI(gestor);
+                            break;
 
-                    case 0:
-                        Console.WriteLine("\n¡Gracias por usar PLANAZO! Saliendo del sistema...");
-                        break;
+                        case 6:
+                            gestor.VerResumenReservas();
+                            PausarConsola();
+                            break;
 
-                    default:
-                        Console.WriteLine("\n[Error] Opción no válida. Seleccione una opción entre 0 y 6.");
-                        break;
+                        case 7:
+                            continuar = false;
+                            Console.WriteLine("¡Gracias por usar PLANAZO! Hasta luego.");
+                            break;
+
+                        default:
+                            MostrarMensajeError("Opción no válida. Por favor, seleccione entre 1 y 7.");
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Captura global de excepciones para cumplir con el requisito de robustez
+                    MostrarMensajeError($"Error en la operación: {ex.Message}");
                 }
             }
-            catch (Exception ex)
-            {
-                // Capturamos cualquier excepción personalizada (ArgumentException, KeyNotFoundException, InvalidOperationException)
-                // y evitamos que el programa se cierre abruptamente
-                Console.WriteLine($"\n[AVISO DE ERROR]: {ex.Message}");
-            }
-
-            if (opcion != 0)
-            {
-                Continuar();
-            }
         }
-    }
 
-    static void MostrarMenu()
-    {
-        Console.WriteLine("\n================================");
-        Console.WriteLine("        PLANAZO - EVENTOS       ");
-        Console.WriteLine("================================");
-        Console.WriteLine("1. Ver eventos disponibles");
-        Console.WriteLine("2. Consultar evento");
-        Console.WriteLine("3. Reservar entradas");
-        Console.WriteLine("4. Ver reservas realizadas");
-        Console.WriteLine("5. Cancelar una reserva");
-        Console.WriteLine("6. Ver resumen de reservas");
-        Console.WriteLine("0. Salir");
-        Console.Write("\nSeleccione una opción: ");
-    }
+        private static void ConsultarEventoUI(GestorReservas gestor)
+        {
+            gestor.MostrarEventosDisponibles();
+            Console.WriteLine("--------------------------------------------------");
+            Console.Write("Ingrese el ID del evento que desea consultar: ");
+            
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                MostrarMensajeError("ID inválido. Debe ingresar un número.");
+                return;
+            }
 
-    static void Continuar()
-    {
-        Console.WriteLine("\nPresione cualquier tecla para continuar...");
-        Console.ReadKey();
+            gestor.ConsultarEventoPorId(id);
+            PausarConsola();
+        }
+
+        private static void RealizarReservaUI(GestorReservas gestor)
+        {
+            gestor.MostrarEventosDisponibles();
+            Console.WriteLine("--------------------------------------------------");
+            
+            Console.Write("Ingrese el nombre del cliente: ");
+            string cliente = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(cliente))
+            {
+                MostrarMensajeError("El nombre del cliente no puede estar vacío.");
+                return;
+            }
+
+            Console.Write("Ingrese el ID del evento que desea reservar: ");
+            if (!int.TryParse(Console.ReadLine(), out int idEvento))
+            {
+                MostrarMensajeError("ID inválido. Debe ingresar un número.");
+                return;
+            }
+
+            Console.Write("Ingrese la cantidad de entradas a reservar: ");
+            if (!int.TryParse(Console.ReadLine(), out int cantidad))
+            {
+                MostrarMensajeError("Cantidad inválida. Debe ingresar un número entero.");
+                return;
+            }
+
+            // Llamada respetando el orden exacto de tu GestorReservas: (string nombrePersona, int eventoId, int cantidadEntradas)[cite: 7]
+            gestor.RealizarReserva(cliente, idEvento, cantidad);
+            PausarConsola();
+        }
+
+        private static void CancelarReservaUI(GestorReservas gestor)
+        {
+            gestor.VerReservasRealizadas();
+            Console.WriteLine("--------------------------------------------------");
+
+            Console.Write("Ingrese el ID de la reserva que desea cancelar: ");
+            if (!int.TryParse(Console.ReadLine(), out int idReserva))
+            {
+                MostrarMensajeError("ID inválido. Debe ingresar un número.");
+                return;
+            }
+
+            gestor.CancelarReserva(idReserva);
+            PausarConsola();
+        }
+
+        private static void MostrarMensajeError(string mensaje)
+        {
+            Console.WriteLine($"\n⚠️ ERROR: {mensaje}");
+            PausarConsola();
+        }
+
+        private static void PausarConsola()
+            {
+            Console.WriteLine("\nPresione cualquier tecla para continuar...");
+            Console.ReadKey();
+        }
     }
 }
