@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PLANAZO-POO-CSharp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1d3dea73f17e644a9e134b9fb7944a0e8ff2dc4")]
 [assembly: System.Reflection.AssemblyProductAttribute("PLANAZO-POO-CSharp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PLANAZO-POO-CSharp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
