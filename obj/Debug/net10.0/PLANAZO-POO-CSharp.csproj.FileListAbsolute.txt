@@ -12,3 +12,4 @@ C:\Users\Dilan\Documents\PLANAZO-POO-CSharp\obj\Debug\net10.0\refint\PLANAZO-POO
 C:\Users\Dilan\Documents\PLANAZO-POO-CSharp\obj\Debug\net10.0\PLANAZO-POO-CSharp.pdb
 C:\Users\Dilan\Documents\PLANAZO-POO-CSharp\obj\Debug\net10.0\PLANAZO-POO-CSharp.genruntimeconfig.cache
 C:\Users\Dilan\Documents\PLANAZO-POO-CSharp\obj\Debug\net10.0\ref\PLANAZO-POO-CSharp.dll
+C:\Users\Dilan\Documents\PLANAZO-POO-CSharp\obj\Debug\net10.0\PLANAZO-POO-CSharp.sourcelink.json
