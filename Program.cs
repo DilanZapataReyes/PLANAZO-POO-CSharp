@@ -26,7 +26,7 @@ namespace PLANAZO_POO_CSharp
                 Console.WriteLine("==================================================");
                 Console.Write("Seleccione una opción (1-7): ");
 
-                // Validación robusta: si escriben una letra, no se cae el programa
+                
                 if (!int.TryParse(Console.ReadLine(), out int opcion))
                 {
                     MostrarMensajeError("Entrada inválida. Debe ingresar un número entero del 1 al 7.");
@@ -78,7 +78,7 @@ namespace PLANAZO_POO_CSharp
                 }
                 catch (Exception ex)
                 {
-                    // Captura global de excepciones para cumplir con el requisito de robustez
+                    
                     MostrarMensajeError($"Error en la operación: {ex.Message}");
                 }
             }
@@ -128,7 +128,7 @@ namespace PLANAZO_POO_CSharp
                 return;
             }
 
-            // Llamada respetando el orden exacto de tu GestorReservas: (string nombrePersona, int eventoId, int cantidadEntradas)[cite: 7]
+            
             gestor.RealizarReserva(cliente, idEvento, cantidad);
             PausarConsola();
         }
