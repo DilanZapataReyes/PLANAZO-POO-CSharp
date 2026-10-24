@@ -9,3 +9,15 @@ Este proyecto es una aplicación de consola desarrollada en C# y .NET para la ge
 1. Clonar el repositorio:
    ```bash
    git clone [https://github.com/DilanZapataReyes/PLANAZO-POO-CSharp.git](https://github.com/DilanZapataReyes/PLANAZO-POO-CSharp.git)
+
+   ---
+
+## ❓ Respuesta a la Pregunta de Sustentación
+
+**¿Por qué utilizaste una clase abstracta `Evento` en lugar de crear clases completamente independientes para Cine, Concierto y Taller? ¿Qué ventajas tiene esta decisión cuando necesitamos agregar un nuevo tipo de evento?**
+
+> **Respuesta:**
+> Utilizar la clase abstracta `Evento` nos permite modelar la estructura base que todos los eventos comparten en un solo lugar (DRY - *Don't Repeat Yourself*). Además, habilita el **Polimorfismo**: la clase `Reserva` y el `GestorReservas` interactúan con una lista de tipo `List<Evento>` sin importar qué derivado específico sea (`Cine`, `Concierto`, `Taller` o `EventoDeportivo`).
+>
+> **Ventajas al agregar un nuevo tipo de evento:**
+> La principal ventaja es el principio de Abierto/Cerrado (SOLID). Cuando agregamos un nuevo evento como `EventoDeportivo`, solo tuvimos que crear una nueva clase que heredara de `Evento` e implementara `CalcularPrecioFinal()`. No fue necesario modificar ninguna línea de código del método `RealizarReserva()`, `CalcularPrecioFinal()` o el resumen en `GestorReservas.cs`, reduciendo el riesgo de introducir bugs y facilitando la escalabilidad del proyecto.
